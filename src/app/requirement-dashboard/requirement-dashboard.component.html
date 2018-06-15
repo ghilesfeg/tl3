@@ -1,0 +1,345 @@
+<ng-template #itemTemplate let-item="item" let-onCollapseExpand="onCollapseExpand" let-onCheckedChange="onCheckedChange">
+        
+                <i *ngIf="item.children" (click)="onCollapseExpand()" aria-hidden="true" class="fa" [class.fa-caret-right]="item.collapsed"
+                [class.fa-caret-down]="!item.collapsed" style="cursor: pointer;"></i>
+                &nbsp;
+              <!-- <div class="form-check"> -->
+                    <div >
+                            <label class="form-check-label">
+                                <!-- <input *ngIf="!item.children" class="form-check-input" [(ngModel)]="item.checked" (ngModelChange)="onCheckedChange()" [disabled]="item.disabled"
+                                [indeterminate]="item.indeterminate"> -->
+                                <div *ngIf="item.children" [class.text-info]="item.children">{{item.text}}</div> <i *ngIf="item.children" class="fa fa-plus-circle pull-right" style="cursor: pointer;" title="Ajouter une exigence" (click)="updateReq(item)" data-toggle="modal" data-target="#addReq"></i>
+                                <div *ngIf="!item.children" (click)="item.checked = !item.checked; onCheckedChange()" [class.hidden]="item.text === ''" [class.text-primary]="item.checked">{{item.text}}</div>
+                                <!-- <i class="fa fa-trash" aria-hidden="true" title="Remove" (click)="removeItem(item)"></i> -->
+                            </label>
+                        </div>
+                <!-- <input type="checkbox" class="form-check-input" [(ngModel)]="item.checked" (ngModelChange)="onCheckedChange()" [disabled]="item.disabled"
+                  [indeterminate]="item.indeterminate" />
+                <label class="form-check-label" (click)="item.checked = !item.checked; onCheckedChange()">
+                  {{item.text}}
+                </label>
+                <label class="form-check-label">
+                  <i class="fa fa-trash" aria-hidden="true" title="Remove" (click)="removeItem(item)"></i>
+                </label> -->
+              <!-- </div> -->
+        <br *ngIf="item.children">
+</ng-template>
+<div class="content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-lg-3 col-md-6 col-sm-6">
+              <div class="card card-stats">
+                  <div class="card-header" data-background-color="purple">
+                      <i class="material-icons">content_copy</i>
+                  </div>
+                  <div class="card-content">
+                      <p class="category title">Exigences</p>
+                          <small>{{reqCount()}}</small>
+                  </div>
+                  <div class="card-footer center-block text-center">
+                        <button class="btn btn-primary" data-toggle="modal" data-target="#addFolder">Ajouter un dossier d'exigence</button>
+                    </div>
+                  <div class="card-footer">
+                      <div class="col-12">
+                            <ngx-treeview [items]="items" [itemTemplate]="itemTemplate" (selectedChange)="onSelectedChange($event)">
+                                </ngx-treeview>    
+                      </div>  
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-9 col-md-6 col-sm-6">
+                <div class="card card-nav-tabs">
+                        <div class="card-header" data-background-color="purple">
+                            <div class="nav-tabs-navigation">
+                                <div class="nav-tabs-wrapper">
+                                    <span class="nav-tabs-title">Exigence:</span>
+                                    
+                                    <ul class="nav nav-tabs" data-tabs="tabs">
+                                        <li class="active">
+                                            <a href="#profile" data-toggle="tab">
+                                                <i class="material-icons">description</i> Détails
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+                                        <li class="">
+                                            <a href="#messages" data-toggle="tab">
+                                                <i class="material-icons">attachment</i> Pièces jointes
+                                                <div class="ripple-container"></div>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="profile">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="optionsCheckboxes" checked>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>Sign contract for "What are conference organizers afraid of?"</td>
+                                                <td class="td-actions text-right">
+                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="optionsCheckboxes">
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
+                                                <td class="td-actions text-right">
+                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="optionsCheckboxes">
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+                                                </td>
+                                                <td class="td-actions text-right">
+                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="optionsCheckboxes" checked>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>Create 4 Invisible User Experiences you Never Knew About</td>
+                                                <td class="td-actions text-right">
+                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="tab-pane" id="messages">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="optionsCheckboxes" checked>
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
+                                                </td>
+                                                <td class="td-actions text-right">
+                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" name="optionsCheckboxes">
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>Sign contract for "What are conference organizers afraid of?"</td>
+                                                <td class="td-actions text-right">
+                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
+                                                        <i class="material-icons">edit</i>
+                                                    </button>
+                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
+                                                        <i class="material-icons">close</i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- add Folder modal -->
+<div class="modal fade" id="addFolder" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="card card-signup card-plain">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="material-icons">clear</i>
+                            </button>
+              <div class="modal-header" data-background-color="purple">
+                <h5 class="modal-title card-title text-center">Ajout d'un dossier d'exigences</h5>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-12 mr-auto">
+                    <form class="form" [formGroup]="folderForm" (submit)="addFolder()">
+                      <div class="card-body">
+                          <div *ngIf="error" class="alert alert-danger">
+                            {{error}}
+                          </div>
+                        <div class="form-group">
+                          <div class="input-group">
+                              <span class="input-group-addon">
+                                  <i class="material-icons">folder</i>
+                              </span>
+                              <input type="text" class="form-control" formControlName="folderName" placeholder="Nom du dossier d'exigence" (keyup)="folderControl()">
+                          </div>
+                        </div>      
+      
+                      <div class="checkbox">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value="" formControlName="checked">
+                            <span class="form-check-sign">
+                                <span class="check"></span>
+                            </span>
+                            <span class="text-primary">Ajouter un autre dossier d'exigences ?</span> 
+                        </label>
+                      </div>
+                      </div>
+                    <div class="modal-footer justify-content-center">
+                    <button  class="btn btn-primary btn-round">Ajouter</button>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+<!-- add requirement modal -->
+<div class="modal fade" id="addReq" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="card card-signup card-plain">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <i class="material-icons">clear</i>
+                            </button>
+              <div class="modal-header" data-background-color="purple">
+                <h5 class="modal-title card-title text-center">Ajout d'une exigence</h5>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-md-12 mr-auto">
+                    <form class="form" [formGroup]="reqForm">
+                      <div class="card-body">
+                          <div *ngIf="error" class="alert alert-danger">
+                            {{error}}
+                          </div>
+                        <div class="form-group">
+                          <div class="input-group">
+                              <span class="input-group-addon">
+                                  <i class="material-icons">title</i>
+                              </span>
+                              <input type="text" class="form-control" formControlName="reqName" placeholder="Nom de l'exigence" (keyup)="reqControl()">
+                          </div>
+                        </div>      
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">trending_down</i>
+                                </span>
+                                <input type="text" id="ref" class="form-control" formControlName="reference" placeholder="Référence">
+                            </div>  
+                        </div>   
+                        <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">priority_high</i>
+                                </span>
+                                <select class="form-control" formControlName="critic">
+                                        <option [ngValue]="undefined" disabled  selected> Criticité de l'exigence </option>
+                                        <option *ngFor="let c of critics" [ngValue]="c">{{ c }}</option>
+                                </select>
+                            </div>  
+                        </div>         
+                        <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">layers</i>
+                                    </span>
+                                    <select class="form-control" formControlName="category">
+                                            <option [ngValue]="undefined" disabled  selected> Catégorie de l'exigence </option>
+                                            <option *ngFor="let cat of categories" [ngValue]="cat">{{ cat }}</option>
+                                    </select>
+                                </div>  
+                            </div>     
+                            <div class="form-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon">
+                                            <i class="material-icons">description</i>
+                                        </span>
+                                        <textarea class="form-control" placeholder="Description de l'exigence" formControlName="description"></textarea>
+                                    </div>  
+                                </div>       
+                      <div class="checkbox">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" value="" formControlName="checked">
+                            <span class="form-check-sign">
+                                <span class="check"></span>
+                            </span>
+                            <span class="text-primary">Ajouter une autre exigence ?</span> 
+                        </label>
+                      </div>
+                      </div>
+                    <div class="modal-footer justify-content-center">
+                    <button *ngIf="reqForm.valid" (click)="addReq()" class="btn btn-primary btn-round">Ajouter</button>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      

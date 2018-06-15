@@ -1,0 +1,91 @@
+/* Shrinking the sidebar from 250px to 80px and center aligining its content*/
+#sidebar.active {
+    min-width: 80px;
+    max-width: 80px;
+    text-align: center;
+}
+
+/* Toggling the sidebar header content, hide the big heading [h3] and showing the small heading [strong] and vice versa*/
+#sidebar.active .sidebar-header a h5 {
+    display: none;
+}
+#sidebar div ul li a {
+    text-align: left;
+}
+
+#sidebar.active div ul li a {
+    padding: 10px 10px;
+    text-align: center;
+    font-size: 0.85em;
+}
+#sidebar.active div ul li a p {
+    visibility: hidden;
+}
+.sidebar.active[data-color="purple"] .nav li.active a, .off-canvas-sidebar[data-color="purple"] .nav li.active a {
+    background-color: #9c27b0;
+    box-shadow: 0 12px 20px -10px rgba(156, 39, 176, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(156, 39, 176, 0.2);
+    width: 20%;
+    height: 50px;
+}
+.sidebar.active[data-color="purple"][_ngcontent-c0] .nav[_ngcontent-c0] li.active[_ngcontent-c0] a[_ngcontent-c0], .off-canvas-sidebar[data-color="purple"][_ngcontent-c0] .nav[_ngcontent-c0] li.active[_ngcontent-c0] a[_ngcontent-c0] {
+    background-color: #9c27b0;
+    box-shadow: 0 12px 20px -10px rgba(156, 39, 176, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.12), 0 7px 8px -5px rgba(156, 39, 176, 0.2);
+    /* width: 20%; */
+    height: 50px;
+}
+#sidebar.active[_ngcontent-c0][_ngcontent-c0] div[_ngcontent-c0][_ngcontent-c0] ul[_ngcontent-c0][_ngcontent-c0] li[_ngcontent-c0][_ngcontent-c0] a[_ngcontent-c0][_ngcontent-c0] {
+    padding: 10px 10px;
+    text-align: center;
+    font-size: 0.85em;
+    /* width: 20%; */
+    height: 50px;
+}
+.sidebar .sidebar-wrapper, .off-canvas-sidebar .sidebar-wrapper {
+    position: relative;
+    height: calc(100vh - 75px);
+    overflow: auto;
+    /* width: 260px; */
+    z-index: 4;
+}
+#sidebar.active[_ngcontent-c0][_ngcontent-c0] div[_ngcontent-c0][_ngcontent-c0] ul[_ngcontent-c0][_ngcontent-c0] li[_ngcontent-c0][_ngcontent-c0] a[_ngcontent-c0][_ngcontent-c0] {
+    padding: 10px 10px;
+    text-align: center;
+    font-size: 0.85em;
+    width: 65%;
+    height: 50px;
+}
+.sidebar-wrapper1 {
+    position: relative;
+    height: calc(100vh - 75px);
+    overflow: auto;
+    z-index: 4;
+}
+#sidebar.active[_ngcontent-c0] div[_ngcontent-c0] ul[_ngcontent-c0] li[_ngcontent-c0] a[_ngcontent-c0] {
+    padding: 10px 10px;
+    text-align: center;
+    font-size: 0.85em;
+    width: 20%;
+    height: 50px;
+}
+#sidebar.active div ul li a i {
+    margin-right:  0;
+    display: block;
+    font-size: 1.8em;
+    margin-bottom: 5px;
+}
+
+/* Same dropdown links padding*/
+#sidebar.active div ul ul a {
+    padding: 10px !important;
+}
+
+/* Changing the arrow position to bottom center position, 
+   translateX(50%) works with right: 50% 
+   to accurately  center the arrow */
+/* #sidebar.active div ul li a[aria-expanded="false"]::before, #sidebar.active div ul li a[aria-expanded="true"]::before {
+    top: auto;
+    bottom: 5px;
+    right: 50%;
+    transform: translateX(50%);
+} */
+

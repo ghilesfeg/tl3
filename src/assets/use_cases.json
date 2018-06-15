@@ -1,0 +1,175 @@
+{
+  "use_cases": [
+    {
+      "id": "0",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Address Options",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "1",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Book Flight Page",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "2",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Book Flight",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "3",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Biling And Delivery Address",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "4",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Book Flight Preparation",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "5",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Create and delete order",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "6",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Create order",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "7",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Create Order Flow",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "8",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Credit Card Expiration Date",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "9",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Credit Card Number",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "10",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Credit Card Owner",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "11",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Delete Order",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "12",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Discount by customer type",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "13",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Fax order",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "14",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Login and initialize Application Flow",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "15",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Open order",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "16",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Passenger Name",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "17",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Trip Type",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    },
+    {
+      "id": "18",
+      "level": "Medium",
+      "priority": "3-High",
+      "reviewed": "Reviewed",
+      "testname": "Update Order",
+      "type": "MANUAL",
+      "creationDate": "08-06-2018"
+    }
+  ]
+}

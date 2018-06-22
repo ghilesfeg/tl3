@@ -1,27 +1,16 @@
 <ng-template #itemTemplate let-item="item" let-onCollapseExpand="onCollapseExpand" let-onCheckedChange="onCheckedChange">
-        
                 <i *ngIf="item.children" (click)="onCollapseExpand()" aria-hidden="true" class="fa" [class.fa-caret-right]="item.collapsed"
                 [class.fa-caret-down]="!item.collapsed" style="cursor: pointer;"></i>
                 &nbsp;
-              <!-- <div class="form-check"> -->
                     <div >
                             <label class="form-check-label">
-                                <!-- <input *ngIf="!item.children" class="form-check-input" [(ngModel)]="item.checked" (ngModelChange)="onCheckedChange()" [disabled]="item.disabled"
-                                [indeterminate]="item.indeterminate"> -->
-                                <div *ngIf="item.children" [class.text-info]="item.children">{{item.text}}</div> <i *ngIf="item.children" class="fa fa-plus-circle pull-right" style="cursor: pointer;" title="Ajouter une exigence" (click)="updateReq(item)" data-toggle="modal" data-target="#addReq"></i>
-                                <div *ngIf="!item.children" (click)="item.checked = !item.checked; onCheckedChange()" [class.hidden]="item.text === ''" [class.text-primary]="item.checked">{{item.text}}</div>
+                                <div *ngIf="item.children" [class.text-primary]="item.children">{{item.text}}</div> <i *ngIf="item.children" class="fa fa-plus-circle pull-right" style="cursor: pointer;" title="Ajouter une exigence" (click)="updateReq(item)" data-toggle="modal" data-target="#addReq"></i> 
+                                <div *ngIf="!item.children" style="cursor: pointer;" (click)="item.checked = !item.checked; onCheckedChange()" [class.hidden]="item.text === ''" [class.text-primary]="item.checked">{{item.text}}</div>
+                                &nbsp;
+                                <i *ngIf="!item.children && item.text !== '' && item.checked" class="fa fa-edit" aria-hidden="true" title="Renommer" style="cursor:pointer;" data-toggle="modal" data-target="#editReq" (click)="updateReq(item)"></i>
                                 <!-- <i class="fa fa-trash" aria-hidden="true" title="Remove" (click)="removeItem(item)"></i> -->
                             </label>
                         </div>
-                <!-- <input type="checkbox" class="form-check-input" [(ngModel)]="item.checked" (ngModelChange)="onCheckedChange()" [disabled]="item.disabled"
-                  [indeterminate]="item.indeterminate" />
-                <label class="form-check-label" (click)="item.checked = !item.checked; onCheckedChange()">
-                  {{item.text}}
-                </label>
-                <label class="form-check-label">
-                  <i class="fa fa-trash" aria-hidden="true" title="Remove" (click)="removeItem(item)"></i>
-                </label> -->
-              <!-- </div> -->
         <br *ngIf="item.children">
 </ng-template>
 <div class="content">
@@ -48,11 +37,11 @@
               </div>
           </div>
           <div class="col-lg-9 col-md-6 col-sm-6">
-                <div class="card card-nav-tabs">
+                <div *ngIf="rows.length > 0 && reqView" class="card card-nav-tabs">
                         <div class="card-header" data-background-color="purple">
                             <div class="nav-tabs-navigation">
                                 <div class="nav-tabs-wrapper">
-                                    <span class="nav-tabs-title">Exigence:</span>
+                                    <span class="nav-tabs-title">Exigence: <b>{{reqView.reqName}}</b></span>
                                     
                                     <ul class="nav nav-tabs" data-tabs="tabs">
                                         <li class="active">
@@ -75,130 +64,95 @@
                         <div class="card-content">
                             <div class="tab-content">
                                 <div class="tab-pane active" id="profile">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" name="optionsCheckboxes" checked>
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" name="optionsCheckboxes">
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" name="optionsCheckboxes">
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                                                </td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" name="optionsCheckboxes" checked>
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>Create 4 Invisible User Experiences you Never Knew About</td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                        
+                                    
+                                              <div class="row">
+                                                    <div class="col">
+                                                            <div class="center-block text-center">
+                                                                    <button class="btn btn-primary">Renommer</button>
+                                                                    <button class="btn btn-default">Créer une nouvelle version</button>
+                                                                    <button class="btn btn-rose">Imprimer</button>
+                                                            </div>
+                                                    </div>               
+                                              </div>  
+                                               <hr>
+                                            <div class="card-body ">
+                                                   
+                                                    <div class="row">
+                                                            
+                                                                        <div class="col-lg-2 col-md-3">
+                                                                            <!--
+                                                                                color-classes: "nav-pills-primary", "nav-pills-info", "nav-pills-success", "nav-pills-warning","nav-pills-danger"
+                                                                            -->
+                                                                            <ul class="nav nav-pills nav-pills-primary nav-pills-icons flex-column" role="tablist" style="display: flex;
+                                                                            flex-direction: column;">
+                                                                                <li class="nav-item">
+                                                                                    <a class="nav-link active" data-toggle="tab" href="#link10" role="tablist">
+                                                                                        <i class="material-icons">info</i>
+                                                                                        Informations générales
+                                                                                    </a>
+                                                                                </li>
+                                                                               
+                                                                                <li class="nav-item">
+                                                                                        <a class="nav-link" data-toggle="tab" href="#link12" role="tablist">
+                                                                                            <i class="material-icons">description</i>
+                                                                                            Description
+                                                                                        </a>
+                                                                                    </li>
+                                                                                    <li class="nav-item">
+                                                                                            <a class="nav-link" data-toggle="tab" href="#link13" role="tablist">
+                                                                                                <i class="material-icons">timeline</i>
+                                                                                                Couverture
+                                                                                            </a>
+                                                                                        </li>
+                                                                                        <li class="nav-item">
+                                                                                                <a class="nav-link" data-toggle="tab" href="#link14" role="tablist">
+                                                                                                    <i class="material-icons">link</i>
+                                                                                                    Tests liés
+                                                                                                </a>
+                                                                                        </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                        <div class="col-md-9">
+                                                                            <div class="tab-content">
+                                                                                <div class="tab-pane active" id="link10">
+                                                                                    Créé le : <b>{{reqView.createdAt | date: 'dd/MM/yyyy'}}</b> 
+                                                                                    <br>
+                                                                                    Version : <b>1</b>
+                                                                                    <br>
+                                                                                    Référence : <b>{{reqView.reference}}</b> 
+                                                                                    <br>
+                                                                                    Statut : <b>En cours de rédaction</b> 
+                                                                                    <br>
+                                                                                    Criticité : <b>{{reqView.critical}}</b>
+                                                                                    <br>
+                                                                                    Catégorie : <b>{{reqView.category}}</b>
+                                                                                </div>
+                                                                                
+                                                                                <div class="tab-pane" id="link12">
+                                                                                    {{reqView.description}}
+                                                                                </div>
+                                                                                <div class="tab-pane" id="link13">
+                                                                                        Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas.
+                                                                                        <br><br>Dramatically maintain clicks-and-mortar solutions without functional solutions.
+                                                                                </div>
+                                                                                <div class="tab-pane" id="link14">
+                                                                                        Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas.
+                                                                                        <br><br>Dramatically maintain clicks-and-mortar solutions without functional solutions.
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                            </div>
                                 </div>
                                 <div class="tab-pane" id="messages">
-                                    <table class="table">
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" name="optionsCheckboxes" checked>
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                                                </td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox" name="optionsCheckboxes">
-                                                        </label>
-                                                    </div>
-                                                </td>
-                                                <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                                <td class="td-actions text-right">
-                                                    <button type="button" rel="tooltip" title="Edit Task" class="btn btn-primary btn-simple btn-xs">
-                                                        <i class="material-icons">edit</i>
-                                                    </button>
-                                                    <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-simple btn-xs">
-                                                        <i class="material-icons">close</i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
+                <div *ngIf="rows.length === 0" class="text-center" style="margin-top:10%">
+                    <h3>Aucune exigence sélectionnée</h3>
+                </div>
           </div>
       </div>
   </div>
@@ -243,7 +197,7 @@
                       </div>
                       </div>
                     <div class="modal-footer justify-content-center">
-                    <button  class="btn btn-primary btn-round">Ajouter</button>
+                    <button *ngIf="folderForm.valid" class="btn btn-primary btn-round">Ajouter</button>
                     </div>
                     </form>
                   </div>
@@ -342,4 +296,42 @@
         </div>
       </div>
       
-      
+  <!-- edit requirement modal -->
+<div class="modal fade" id="editReq" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="card card-signup card-plain">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="material-icons">clear</i>
+                        </button>
+          <div class="modal-header" data-background-color="purple">
+            <h5 class="modal-title card-title text-center">Renommer l'exigence</h5>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12 mr-auto">
+                <form class="form" [formGroup]="reqForm" (submit)="renameReq()">
+                  <div class="card-body">
+                      <div *ngIf="error" class="alert alert-danger">
+                        {{error}}
+                      </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                          <span class="input-group-addon">
+                              <i class="material-icons">title</i>
+                          </span>
+                          <input type="text" class="form-control" formControlName="reqName" [value]="req && req.text" placeholder="Nom du dossier d'exigence" (keyup)="reqControl()">
+                      </div>
+                    </div>      
+                  </div>
+                <div class="modal-footer justify-content-center">
+                <button *ngIf="reqForm.valid"  class="btn btn-primary btn-round">Ajouter</button>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

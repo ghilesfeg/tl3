@@ -1,0 +1,378 @@
+<ng-template #itemTemplate let-item="item" let-onCollapseExpand="onCollapseExpand" let-onCheckedChange="onCheckedChange">
+  <i *ngIf="item.children" (click)="onCollapseExpand()" aria-hidden="true" class="fa" [class.fa-caret-right]="item.collapsed"
+  [class.fa-caret-down]="!item.collapsed" style="cursor: pointer;"></i>
+  &nbsp;
+      <div >
+              <label class="form-check-label">
+                  <div *ngIf="item.children" [class.text-success]="item.children">{{item.text}}</div> <i *ngIf="item.children" class="fa fa-plus-circle pull-right" style="cursor: pointer;" title="Ajouter une séquence de test" (click)="updateTest(item)" data-toggle="modal" data-target="#addTest"></i> 
+                  <div *ngIf="!item.children" style="cursor: pointer;" (click)="item.checked = !item.checked; onCheckedChange()" [class.hidden]="item.text === ''" [class.text-success]="item.checked">{{item.text}}</div>
+                  &nbsp;
+                  <i *ngIf="!item.children && item.text !== '' && item.checked" class="fa fa-edit" aria-hidden="true" title="Renommer" style="cursor:pointer;" data-toggle="modal" data-target="#editTest" (click)="updateTest(item)"></i>
+                  <!-- <i class="fa fa-trash" aria-hidden="true" title="Remove" (click)="removeItem(item)"></i> -->
+              </label>
+          </div>
+<br *ngIf="item.children">
+</ng-template>
+<div class="content">
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-3 col-md-6 col-sm-6">
+<div class="card card-stats">
+    <div class="card-header" data-background-color="green">
+        <i class="material-icons">list</i>
+    </div>
+    <div class="card-content">
+        <p class="category title">Cas de test</p>
+            <small>{{testCount()}}</small>
+    </div>
+    <div class="card-footer center-block text-center">
+          <button class="btn btn-success" data-toggle="modal" data-target="#addFolder">Ajouter un dossier de test</button>
+      </div>
+    <div class="card-footer">
+        <div class="col-12">
+              <ngx-treeview [items]="items" [itemTemplate]="itemTemplate" (selectedChange)="onSelectedChange($event)">
+                  </ngx-treeview>    
+        </div>  
+    </div>
+</div>
+</div>
+<div class="col-lg-9 col-md-6 col-sm-6">
+    <div *ngIf="rows.length > 0" class="card card-nav-tabs">
+        <div class="card-header" data-background-color="green">
+            <div class="nav-tabs-navigation">
+                <div class="nav-tabs-wrapper">
+                    <span class="nav-tabs-title">Cas de test : <b>{{test.testName}}</b></span>
+                    
+                    <ul class="nav nav-tabs" data-tabs="tabs">
+                        <li class="active">
+                            <a href="#profile" data-toggle="tab">
+                                <i class="material-icons">description</i> Détails
+                                <div class="ripple-container"></div>
+                            </a>
+                        </li>
+                        <li class="">
+                            <a href="#messages" data-toggle="tab">
+                                <i class="material-icons">notes</i> Pas de test
+                                <div class="ripple-container"></div>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="card-content">
+            <div class="tab-content">
+                <div class="tab-pane active" id="profile">
+                  <div class="row">
+                    <div class="col">
+                      <div class="center-block text-center">
+                        <button class="btn btn-success">Renommer</button>
+                        <button class="btn btn-rose">Imprimer</button>
+                      </div>
+                    </div>               
+                  </div>  
+                  <hr>
+                  <div class="card-body ">
+                    <div class="row">
+                      <div class="col-lg-2 col-md-3">
+                        <!--
+                          color-classes: "nav-pills-primary", "nav-pills-info", "nav-pills-success", "nav-pills-warning","nav-pills-danger"
+                        -->
+                        <ul class="nav nav-pills nav-pills-success nav-pills-icons flex-column" role="tablist" style="display: flex;flex-direction: column;">
+                          <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#link10" role="tablist">
+                              <i class="material-icons">info</i>
+                              Informations générales
+                            </a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#link13" role="tablist">
+                              <i class="material-icons">warning</i>
+                              Pré-requis
+                            </a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#link14" role="tablist">
+                              <i class="material-icons">done</i>
+                              Exigences vérifiées par ce cas de test
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="col-md-9">
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="link10">
+                            Créé le : <b>{{getDate() | date: 'dd/MM/yyyy'}}</b> 
+                            <br>
+                            Référence : {{test.reference}}
+                            <br>
+                            Statut : <b>{{test.status}}</b> 
+                            <br>
+                            Description : <b>{{test.description}}</b>
+                            <br>
+                            Importance : <b>{{test.importance}}</b>
+                            <br>
+                            Nature : <b>{{test.nature}}</b>
+                            <br>
+                            Type : <b>{{test.type}}</b>
+                          </div>
+                          <div class="tab-pane" id="link13">
+                            Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas.
+                            <br><br>Dramatically maintain clicks-and-mortar solutions without functional solutions.
+                          </div>
+                          <div class="tab-pane" id="link14">
+                            Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas.
+                            <br><br>Dramatically maintain clicks-and-mortar solutions without functional solutions.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane" id="messages">
+                    
+                    
+                    <h4 *ngIf="steps.length === 0" class="text-center">Aucun pas de test</h4>
+                    <div class="text-center center-block">
+                        <button *ngIf="!addStep" class="btn btn-success" (click)="notifyAdd()">Ajouter</button>
+                    </div>
+                    <div *ngIf="steps.length > 0 && !addStep">
+                        
+                          
+                              <div  class="form-group">
+                                  <div class="input-group">
+                                      <span class="input-group-addon">
+                                          <i class="material-icons" >search</i>
+                                      </span>
+                                      <input type="text" class="form-control text-white" style="color:white" placeholder="Rechercher un pas de test">
+                                  </div>
+                              </div>
+                          
+                          
+                              <div class="table-responsive">
+                                  <table class="table table-hover">
+                                    <thead class=" text-success">
+                                        <tr>
+                                            <th>Id</th>
+                                            <th>Déroulement</th>
+                                            <th>Résultats attendus</th>
+                                            <th>Actions</th>
+                                          </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let step of steps">
+                                            <td>{{step.id}}</td>
+                                            <td>{{step.actions}}</td>
+                                            <td>{{step.expected}}</td>
+                                            <td>
+                                              <i class="material-icons">create</i>
+                                              <i class="material-icons">delete</i>
+                                            </td>
+                                          </tr>
+                                    </tbody>
+                                  </table>
+                              </div>
+                          
+                     
+                    </div>
+                      
+                    <form *ngIf="addStep" class="form col center-block" [formGroup]="stepForm" (submit)="newStep()">
+                        <fieldset>
+                          <legend>Ajout d'un pas de test</legend>
+                          <div *ngIf="error" class="alert alert-danger">
+                              {{error}}
+                            </div>
+                          <div class="form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">reorder</i>
+                                </span>
+                                <textarea class="form-control" formControlName="actions" placeholder="Déroulement du pas de test"></textarea>
+                            </div>
+                          </div>      
+                          <div class="form-group">
+                              <div class="input-group">
+                                  <span class="input-group-addon">
+                                      <i class="material-icons">description</i>
+                                  </span>
+                                  <textarea class="form-control" formControlName="expected" placeholder="Résultats attendus"></textarea>
+                              </div>
+                            </div>      
+                        
+                      <div class="justify-content-center text-center center-block">
+                      <button *ngIf="stepForm.valid" class="btn btn-success btn-round">Ajouter</button>
+                        <button class="btn btn-round" (click)="reset()">Annuler</button>
+                    </div>
+                        </fieldset>
+                       
+                           
+                      </form>    
+                </div>
+            </div>
+        </div>
+    </div>
+  <div *ngIf="rows.length === 0" class="text-center" style="margin-top:10%">
+      <h3>Aucun cas de test sélectionné</h3>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- add Folder modal -->
+<div class="modal fade" id="addFolder" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="card card-signup card-plain">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="material-icons">clear</i>
+                        </button>
+          <div class="modal-header" data-background-color="green">
+            <h5 class="modal-title card-title text-center">Ajout d'un dossier de test</h5>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12 mr-auto">
+                <form class="form" [formGroup]="folderForm" (submit)="addFolder()">
+                  <div class="card-body">
+                      <div *ngIf="error" class="alert alert-danger">
+                        {{error}}
+                      </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                          <span class="input-group-addon">
+                              <i class="material-icons">folder</i>
+                          </span>
+                          <input type="text" class="form-control" formControlName="folderName" placeholder="Nom du dossier de test" (keyup)="folderControl()">
+                      </div>
+                    </div>      
+  
+                  <div class="checkbox">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="" formControlName="checked">
+                        <span class="form-check-sign">
+                            <span class="check"></span>
+                        </span>
+                        <span class="text-success">Ajouter un autre dossier de test ?</span> 
+                    </label>
+                  </div>
+                  </div>
+                <div class="modal-footer justify-content-center">
+                <button *ngIf="folderForm.valid" class="btn btn-success btn-round">Ajouter</button>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+<!-- add requirement modal -->
+<div class="modal fade" id="addTest" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="card card-signup card-plain">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i class="material-icons">clear</i>
+                        </button>
+          <div class="modal-header" data-background-color="green">
+            <h5 class="modal-title card-title text-center">Ajout d'un cas de test</h5>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12 mr-auto">
+                <form class="form" [formGroup]="testForm">
+                  <div class="card-body">
+                      <div *ngIf="error" class="alert alert-danger">
+                        {{error}}
+                      </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                          <span class="input-group-addon">
+                              <i class="material-icons">title</i>
+                          </span>
+                          <input type="text" class="form-control" formControlName="testName" placeholder="Nom du cas de test" (keyup)="testControl()">
+                      </div>
+                    </div>      
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="material-icons">trending_down</i>
+                            </span>
+                            <input type="text" id="ref" class="form-control" formControlName="reference" placeholder="Référence">
+                        </div>  
+                    </div>           
+                       
+                        <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="material-icons">description</i>
+                                    </span>
+                                    <textarea class="form-control" placeholder="Description du cas de test" formControlName="description"></textarea>
+                                </div>  
+                            </div>       
+                  <div class="checkbox">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox" value="" formControlName="checked">
+                        <span class="form-check-sign">
+                            <span class="check"></span>
+                        </span>
+                        <span class="text-success">Ajouter un autre cas de test ?</span> 
+                    </label>
+                  </div>
+                  </div>
+                <div class="modal-footer justify-content-center">
+                <button *ngIf="testForm.valid" (click)="addTest()" class="btn btn-success btn-round">Ajouter</button>
+                </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+<!-- edit requirement modal -->
+<div class="modal fade" id="editTest" tabindex="-1" role="dialog">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="card card-signup card-plain">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="material-icons">clear</i>
+                    </button>
+      <div class="modal-header" data-background-color="green">
+        <h5 class="modal-title card-title text-center">Renommer le cas de test</h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12 mr-auto">
+            <form class="form" [formGroup]="testForm" (submit)="editTest()">
+              <div class="card-body">
+                  <div *ngIf="error" class="alert alert-danger">
+                    {{error}}
+                  </div>
+                <div class="form-group">
+                  <div class="input-group">
+                      <span class="input-group-addon">
+                          <i class="material-icons">title</i>
+                      </span>
+                      <input type="text" class="form-control" formControlName="testName" [value]="test && test.text" placeholder="Nom du cas de test" (keyup)="testControl()">
+                  </div>
+                </div>      
+              </div>
+            <div class="modal-footer justify-content-center">
+            <button *ngIf="testForm.valid"  class="btn btn-success btn-round">Ajouter</button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

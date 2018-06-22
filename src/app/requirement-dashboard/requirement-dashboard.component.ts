@@ -1,9 +1,10 @@
-import { Component, OnInit, Injectable, ViewChild } from '@angular/core';
+import { Component, OnInit, Injectable, ViewChild, AfterViewChecked, AfterContentChecked } from '@angular/core';
 import { RequirementService } from '../service/requirement.service';
 import { TreeviewConfig, TreeviewEventParser, TreeviewHelper, TreeviewItem } from 'ngx-treeview';
 import { OrderDownlineTreeviewEventParser, TreeviewComponent, DownlineTreeviewItem } from 'ngx-treeview';
 import { reverse, isNil, remove } from 'lodash';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActiveService } from '../service/active.service';
 declare var $: any;
 
 @Injectable()
@@ -18,18 +19,20 @@ export class ReqTreeviewConfig extends TreeviewConfig {
   selector: 'app-requirement-dashboard',
   templateUrl: './requirement-dashboard.component.html',
   styleUrls: ['./requirement-dashboard.component.css'],
-      providers: [
+    providers: [
         { provide: TreeviewEventParser, useClass: OrderDownlineTreeviewEventParser },
         { provide: TreeviewConfig, useClass: ReqTreeviewConfig }
     ]
 })
-export class RequirementDashboardComponent implements OnInit {
+export class RequirementDashboardComponent implements OnInit, AfterViewChecked, AfterContentChecked {
   items: TreeviewItem[];
   @ViewChild(TreeviewComponent) treeviewComponent: TreeviewComponent;
   rows: any[];
   folderForm: FormGroup;
   reqForm: FormGroup;
   req: any;
+  reqView: any;
+  reqs = this.reqService.getRequirements();
   error: String;
   critics = ['Non définie', 'Mineure', 'Majeure', 'Critique'];
   categories = [
@@ -45,7 +48,12 @@ export class RequirementDashboardComponent implements OnInit {
       'User Story',
       'Sécurité'
     ];
-  constructor(private fb: FormBuilder, private reqService: RequirementService) {
+
+  constructor(
+      private fb: FormBuilder,
+      private reqService: RequirementService,
+      private activeService: ActiveService
+    ) {
       this.folderForm = this.fb.group({
         'folderName' : ['', Validators.required],
         'checked': false
@@ -63,10 +71,17 @@ export class RequirementDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.items = this.reqService.getRequirements();
+    this.items = this.reqService.getTreeRequirement();
+    this.reqView = null;
     this.error = null;
   }
+  ngAfterViewChecked() {
 
+  }
+
+  ngAfterContentChecked() {
+    this.activeService.activeReq();
+  }
 
   onSelectedChange(downlineItems: DownlineTreeviewItem[]) {
     this.rows = [];
@@ -74,8 +89,14 @@ export class RequirementDashboardComponent implements OnInit {
     downlineItems.forEach(downlineItem => {
         myItem = downlineItem.item;
         this.rows.push(myItem);
+        this.req = myItem;
     });
     if (this.rows.length > 0) {
+        this.reqs.map(e => {
+            if (e.id === myItem.value) {
+             this.reqView = e;
+            }
+        });
         this.items.map(item => {
             if (item !== undefined) {
                 if (item.children !== undefined && item.children.length > 0) {
@@ -83,7 +104,7 @@ export class RequirementDashboardComponent implements OnInit {
                         if (i !== undefined) {
                             if (i.value !== myItem.value) {
                                 i.checked = false;
-                                i.disabled = true;
+                                // i.disabled = true;
                             }
                         }
                     });
@@ -97,7 +118,7 @@ export class RequirementDashboardComponent implements OnInit {
                     item.children.map(i => {
                         if (i !== undefined) {
                             i.checked = false;
-                            i.disabled = false;
+                            // i.disabled = false;
                         }
                     });
                 }
@@ -106,7 +127,9 @@ export class RequirementDashboardComponent implements OnInit {
     }
 }
 
-
+getDate() {
+    return new Date();
+}
 removeItem(item: TreeviewItem) {
     let isRemoved = false;
     for (const tmpItem of this.items) {
@@ -126,7 +149,7 @@ removeItem(item: TreeviewItem) {
             if (it !== undefined) {
                 it.children.map(i => {
                     i.checked = false;
-                    i.disabled = false;
+                    // i.disabled = false;
                 });
             }
         });
@@ -138,7 +161,11 @@ reqCount() {
     let count = 0;
     this.items.map(e => {
         if (e !== undefined && e.children !== undefined) {
-            count = count + e.children.length;
+            e.children.map(item => {
+                if (item.text !== '') {
+                    count++;
+                }
+            });
         }
     });
     return count;
@@ -150,20 +177,48 @@ updateReq(item) {
 
 addReq() {
     let added = false;
+    let t;
+    let id;
+    if (this.req.children === undefined) {
+        this.items.map(e => {
+          if (e.children !== undefined) {
+            e.children.map(item => {
+              if (item.text === this.req.text) {
+                this.req = e;
+              }
+            });
+          }
+        });
+      }
     if (this.reqForm.valid) {
         this.req.children.map(e => {
             if (e.text === '') {
                 e.text = this.reqForm.value.reqName;
-                e.value = Math.random();
+                id = Math.random();
+                e.value = id;
+                e.checked = true;
                 added = true;
+                t = e;
+                this.req = e;
             }
         });
         if (!added) {
-            this.req.children.push(new TreeviewItem({ text: this.reqForm.value.reqName, value: Math.random(), checked: false }));
-            added = true;
+            console.log('first insetion');
+            id = Math.random();
+            t = new TreeviewItem({ text: this.reqForm.value.reqName, value: id, checked: true });
+            this.req.children.push(t);
         }
+        this.reqService.addRequirement(this.reqForm.value, id);
+        console.log(this.reqs);
+        this.reqs.map(r => {
+            console.log(r.id + ' | ' + t.value);
+            if (r.id === t.value) {
+                this.reqView = r;
+            }
+        });
         if (!this.reqForm.value.checked) {
             $('#addReq').modal('hide');
+            this.error = null;
         }
         this.reqForm.reset();
         this.reqForm.controls['critic'].setValue('Non définie', {onlySelf: true});
@@ -171,6 +226,25 @@ addReq() {
         this.treeviewComponent.raiseSelectedChange();
     } else {
         this.error = 'Veuillez saisir le nom du dossier d\'exigence à ajouter ';
+    }
+}
+
+renameReq() {
+    if (this.reqForm.valid) {
+        this.items.map(item => {
+            item.children.map(i => {
+                if (i.text === this.req.text) {
+                    i.text = this.reqForm.value.reqName;
+                }
+            });
+        });
+        this.reqService.renameRequirement(this.reqForm.value, this.req);
+        console.log(this.reqs);
+        $('#editReq').modal('hide');
+        this.error = null;
+        this.reqForm.reset();
+    } else {
+        this.error = 'Le nom de l\'exigence est requis !';
     }
 }
 
@@ -188,6 +262,7 @@ addFolder() {
         this.treeviewComponent.raiseSelectedChange();
         if (!this.folderForm.value.checked) {
             $('#addFolder').modal('hide');
+            this.error = null;
         }
         this.folderForm.reset();
     } else {

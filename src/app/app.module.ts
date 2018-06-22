@@ -9,12 +9,16 @@ import { RequirementComponent } from './requirement/requirement.component';
 import { TreeviewModule } from 'ngx-treeview';
 import { RequirementService } from './service/requirement.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TestDashboardComponent } from './test-dashboard/test-dashboard.component';
+import { TestService } from './service/test.service';
+import { ActiveService } from './service/active.service';
+import { StepComponent } from './step/step.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/accueil', pathMatch: 'full' },
   { path: 'accueil', component: AppComponent },
   { path: 'req', component: RequirementDashboardComponent},
-  { path: 'req/:reqId', component: RequirementComponent}
+  { path: 'test', component: TestDashboardComponent}
 ];
 
 
@@ -22,7 +26,9 @@ const appRoutes: Routes = [
   declarations: [
     AppComponent,
     RequirementDashboardComponent,
-    RequirementComponent
+    RequirementComponent,
+    TestDashboardComponent,
+    StepComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +43,9 @@ const appRoutes: Routes = [
   ],
   providers: [
     UseCasesService,
-    RequirementService
+    RequirementService,
+    TestService,
+    ActiveService
   ],
   bootstrap: [AppComponent]
 })
